@@ -3,26 +3,32 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../mailer");
-const User = require("../models/User");
 
-// REGISTER
+// ✅ IMPORTANT: file must be models/userModel.js
+const User = require("../models/userModel");
+
+
+// ================= REGISTER =================
 router.post("/register", async (req, res) => {
-
   try {
-
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Email & password required" });
+      return res.status(400).json({
+        success: false,
+        message: "Email & password required"
+      });
     }
 
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({
+        success: false,
+        message: "User already exists"
+      });
     }
 
-    const hashed = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const otp = Math.floor(100000 + Math.random() * 900000);
 
@@ -33,13 +39,19 @@ router.post("/register", async (req, res) => {
     );
 
     if (!mailSent) {
-      return res.status(500).json({ message: "Email send failed" });
+      return res.status(500).json({
+        success: false,
+        message: "Email send failed"
+      });
     }
 
     const user = new User({
-  email,
-  passwordHash: hashed
-});
+      email,
+      passwordHash: hashedPassword,
+      otp,
+      isVerified: false
+    });
+
     await user.save();
 
     res.json({
@@ -48,25 +60,27 @@ router.post("/register", async (req, res) => {
     });
 
   } catch (err) {
-
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
-
+    console.error("REGISTER ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
   }
-
 });
-// VERIFY OTP
+
+
+// ================= VERIFY OTP =================
 router.post("/verify-otp", async (req, res) => {
-
   try {
-
     const { email, otp } = req.body;
 
     if (!email || !otp) {
-      return res.status(400).json({ message: "Email and OTP required" });
+      return res.status(400).json({
+        success: false,
+        message: "Email and OTP required"
+      });
     }
 
-    // For now we just check if user exists
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -76,27 +90,43 @@ router.post("/verify-otp", async (req, res) => {
       });
     }
 
-    // OTP verification (temporary simple check)
+    if (user.otp !== Number(otp)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP"
+      });
+    }
+
+    user.otp = null;
+    user.isVerified = true;
+    await user.save();
+
     res.json({
       success: true,
       message: "OTP verified successfully"
     });
 
   } catch (err) {
-
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
-
+    console.error("OTP ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
   }
-
 });
 
-// LOGIN
+
+// ================= LOGIN =================
 router.post("/login", async (req, res) => {
-
   try {
-
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email & password required"
+      });
+    }
 
     const user = await User.findOne({ email });
 
@@ -107,7 +137,15 @@ router.post("/login", async (req, res) => {
       });
     }
 
-const match = await bcrypt.compare(password, user.passwordHash);
+    if (!user.isVerified) {
+      return res.status(401).json({
+        success: false,
+        message: "Please verify your account first"
+      });
+    }
+
+    const match = await bcrypt.compare(password, user.passwordHash);
+
     if (!match) {
       return res.status(401).json({
         success: false,
@@ -132,12 +170,12 @@ const match = await bcrypt.compare(password, user.passwordHash);
     });
 
   } catch (err) {
-
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
-
+    console.error("LOGIN ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
   }
-
 });
 
 module.exports = router;
