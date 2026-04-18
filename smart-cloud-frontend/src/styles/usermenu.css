@@ -1,0 +1,98 @@
+/* ================= USER MENU WRAPPER ================= */
+.user-menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* ================= AVATAR (TOP RIGHT CIRCLE) ================= */
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* ================= DROPDOWN MENU ================= */
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.2s ease;
+  z-index: 5000;
+}
+
+/* ================= PROFILE SECTION ================= */
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* BIG AVATAR INSIDE DROPDOWN */
+.avatar-big {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* EMAIL TEXT */
+.user-email {
+  font-size: 14px;
+  color: #374151;
+  word-break: break-all;
+}
+
+/* ================= LOGOUT BUTTON ================= */
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,140 @@
+/* Full screen gradient background and center the box */
+.auth-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4facfe, #00f2fe, #43e97b, #f9d423);
+  font-family: Arial, sans-serif;
+}
+
+/* Login/Register/OTP box */
+.auth-box {
+  width: 380px;
+  padding: 30px; /* smaller padding */
+  background: #ffffff; /* solid white background for contrast */
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* smaller gap */
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.3s ease;
+  border: 2px solid transparent;
+  animation: fadeIn 1s ease;
+}
+
+.auth-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  border: 2px solid #4facfe;
+}
+
+/* Headings */
+.auth-box h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Inputs - smaller, uniform */
+.auth-box input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+  background-color: #f9f9f9;
+  color: #333;
+  height: 40px;
+  font-size: 1rem;
+}
+
+/* Placeholder color */
+.auth-box input::placeholder {
+  color: #888;
+}
+
+.auth-box input:focus {
+  border-color: #4facfe;
+  box-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
+}
+
+/* Password container */
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  padding-right: 40px; /* space for eye icon */
+}
+
+/* Eye icon */
+.eye-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+}
+
+/* Button style - same for login/register/verify */
+.login-btn, .register-btn, .verify-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.login-btn:hover, .register-btn:hover, .verify-btn:hover {
+  background: linear-gradient(90deg, #43e97b, #f9d423);
+  transform: scale(1.05);
+}
+
+/* Switch link */
+.switch {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555; /* darker so visible */
+}
+
+.switch a {
+  color: #4facfe;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.switch a:hover {
+  text-decoration: underline;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px);}
+  to   { opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+  .auth-box {
+    width: 90%;
+    padding: 25px;
+  }
+  .auth-container {
+    padding: 20px;
+  }
+}
+.error-msg {
+  color: #ff4d4f;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}

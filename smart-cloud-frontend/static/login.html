@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* minimal centered styling */
+    body { height:100vh; margin:0; display:flex; align-items:center; justify-content:center;
+           background: linear-gradient(135deg,#6a11cb,#2575fc); font-family: Arial, sans-serif; }
+    .box{ background: #fff; padding:28px; border-radius:12px; width:360px; box-shadow:0 8px 30px rgba(0,0,0,0.25); }
+    .box h2{ margin:0 0 18px; text-align:center; }
+    .box input{ width:100%; padding:10px 12px; margin:8px 0; border-radius:8px; border:1px solid #ddd; font-size:15px; }
+    .btn{ width:100%; padding:11px; background:#6a11cb; color:#fff; border:none; border-radius:8px; cursor:pointer; font-size:16px; }
+    .msg{ margin-top:12px; text-align:center; color:#c00; min-height:18px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Login</h2>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button class="btn" onclick="login()">Login</button>
+    <p class="msg" id="msg"></p>
+    <p style="text-align:center;margin-top:8px"><a href="register.html" style="color:#6a11cb">Register</a></p>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

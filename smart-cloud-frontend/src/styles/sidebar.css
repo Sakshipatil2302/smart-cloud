@@ -1,0 +1,99 @@
+.sc-sidebar{
+width:240px;
+background:#0f172a;
+color:white;
+height:100vh;
+padding:20px;
+display:flex;
+flex-direction:column;
+}
+
+/* SmartCloud Logo */
+
+.logo{
+font-size:26px;
+font-weight:800;
+letter-spacing:1px;
+margin-bottom:35px;
+
+background:linear-gradient(90deg,#60a5fa,#22d3ee,#a78bfa);
+background-size:200% auto;
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+animation:logoMove 4s linear infinite;
+
+cursor:pointer;
+transition:.3s;
+}
+
+/* Hover glow */
+
+.logo:hover{
+transform:scale(1.05);
+text-shadow:0 0 10px rgba(96,165,250,0.6);
+}
+
+/* Sidebar menu container */
+
+.sc-sidebar nav{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+/* Sidebar Buttons */
+
+.side-link{
+background:none;
+border:none;
+color:white;
+text-align:left;
+padding:12px 14px;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+transition:all .25s ease;
+position:relative;
+}
+
+/* Hover Effect */
+
+.side-link:hover{
+background:#1e293b;
+transform:translateX(6px);
+}
+
+/* Left animation bar */
+
+.side-link::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:3px;
+background:#22d3ee;
+border-radius:4px;
+transform:scaleY(0);
+transition:.25s ease;
+}
+
+.side-link:hover::before{
+transform:scaleY(1);
+}
+
+/* Logo Animation */
+
+@keyframes logoMove{
+
+0%{
+background-position:0% center;
+}
+
+100%{
+background-position:200% center;
+}
+
+}

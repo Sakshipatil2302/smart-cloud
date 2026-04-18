@@ -1,0 +1,183 @@
+/* ================= SETTINGS PAGE ================= */
+
+/* REMOVE HORIZONTAL SCROLL */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* SETTINGS CONTAINER */
+.settings-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f3f4f6; /* light gray page background */
+  box-sizing: border-box;
+}
+
+/* PAGE TITLE */
+.settings-container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #111827; /* dark text */
+}
+
+/* SECTION BOX */
+.settings-section {
+  background: #ffffff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+
+.settings-section h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #1e3a8a;
+}
+
+/* LABELS AND INPUTS */
+.settings-section label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.settings-section input[type="text"],
+.settings-section input[type="email"],
+.settings-section input[type="number"] {
+  padding: 10px 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #94a3b8;
+  font-size: 14px;
+  background-color: #f8fafc;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+.settings-section input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+}
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.theme-toggle button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.theme-toggle button:hover {
+  background: #1d4ed8;
+}
+
+/* DARK THEME */
+body.dark-theme {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+body.dark-theme .settings-container {
+  background-color: #334155;
+}
+
+body.dark-theme .settings-section {
+  background-color: #475569;
+  border-color: #64748b;
+}
+
+body.dark-theme .settings-section h3,
+body.dark-theme .settings-section label,
+body.dark-theme .settings-section p {
+  color: #f1f5f9;
+}
+
+body.dark-theme .settings-section input[type="text"],
+body.dark-theme .settings-section input[type="email"],
+body.dark-theme .settings-section input[type="number"] {
+  background-color: #64748b;
+  color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+body.dark-theme .theme-toggle button {
+  background: #2563eb;
+  color: #fff;
+}
+
+body.dark-theme .theme-toggle button:hover {
+  background: #1d4ed8;
+}
+
+/* DENSITY SECTION PARAGRAPH */
+.settings-section p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #475569;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 15px;
+  }
+  .settings-section {
+    padding: 15px 20px;
+  }
+  .settings-container h2 {
+    font-size: 26px;
+  }
+  .settings-section h3 {
+    font-size: 18px;
+  }
+}
+/* DENSITY STYLES */
+body[data-density="1"] .settings-section {
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+
+body[data-density="1"] .settings-section label {
+  margin-bottom: 8px;
+}
+
+body[data-density="2"] .settings-section {
+  padding: 20px 25px;
+  margin-bottom: 25px;
+}
+
+body[data-density="2"] .settings-section label {
+  margin-bottom: 12px;
+}
+
+body[data-density="3"] .settings-section {
+  padding: 30px 35px;
+  margin-bottom: 35px;
+}
+
+body[data-density="3"] .settings-section label {
+  margin-bottom: 18px;
+}

@@ -1,0 +1,4 @@
+node_modules/
+.env
+smart-cloud-backend/uploads/
+*.exe
