@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   phone: String,
   passwordHash: String,
+
+  otp: Number,
+  isVerified: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

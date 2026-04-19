@@ -71,49 +71,47 @@ router.post("/register", async (req, res) => {
 
 // ================= VERIFY OTP =================
 router.post("/verify-otp", async (req, res) => {
+
   try {
+
     const { email, otp } = req.body;
 
-    if (!email || !otp) {
-      return res.status(400).json({
-        success: false,
-        message: "Email and OTP required"
-      });
-    }
+    console.log("👉 EMAIL RECEIVED:", email);
+    console.log("👉 OTP RECEIVED:", otp);
 
     const user = await User.findOne({ email });
 
+    console.log("👉 USER FROM DB:", user);
+
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found"
-      });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.otp !== Number(otp)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid OTP"
-      });
+    console.log("👉 OTP IN DB:", user.otp);
+
+    if (String(user.otp).trim() !== String(otp).trim()) {
+      return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    user.otp = null;
     user.isVerified = true;
+    user.otp = null;
+
     await user.save();
 
-    res.json({
-      success: true,
-      message: "OTP verified successfully"
-    });
+    console.log("👉 AFTER SAVE:", user);
 
-  } catch (err) {
-    console.error("OTP ERROR:", err);
-    res.status(500).json({
-      success: false,
-      message: "Server error"
+    return res.json({ message: "OTP verified successfully" });
+
+  } catch (error) {
+    console.log("OTP ERROR:", error);
+
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message
     });
   }
 });
+
 
 
 // ================= LOGIN =================
