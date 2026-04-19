@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 
@@ -7,6 +7,8 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const registerUser = async () => {
@@ -16,12 +18,28 @@ export default function Register() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", { email, password });
+      setLoading(true);
+
+      // ✅ CORRECT: using API (NOT axios)
+      const res = await API.post("/api/auth/register", {
+        email,
+        password,
+      });
+
+      console.log(res.data);
+
       alert("OTP sent to your Gmail!");
+
+      // store email for OTP verification page
       localStorage.setItem("otpEmail", email);
+
       navigate("/verify-otp");
+
     } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Registration failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +68,9 @@ export default function Register() {
           }}
         />
 
-        <button onClick={registerUser}>Send OTP</button>
+        <button onClick={registerUser} disabled={loading}>
+          {loading ? "Sending OTP..." : "Send OTP"}
+        </button>
 
         {error && <p className="error-msg">{error}</p>}
       </div>
