@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
   phone: String,
   passwordHash: String,
 
-  otp: Number,
+  otp: String,
+  otpExpiry: Date,
+
   isVerified: {
     type: Boolean,
     default: false

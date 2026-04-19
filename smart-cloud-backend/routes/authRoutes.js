@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../mailer");
 
-// ✅ IMPORTANT: file must be models/userModel.js
+// IMPORTANT: correct model path
 const User = require("../models/userModel");
 
 
@@ -21,6 +21,7 @@ router.post("/register", async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -30,7 +31,8 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const otp = Math.floor(100000 + Math.random() * 900000);
+    // ✅ FIX: OTP as STRING
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     const mailSent = await sendMail(
       email,
@@ -48,11 +50,14 @@ router.post("/register", async (req, res) => {
     const user = new User({
       email,
       passwordHash: hashedPassword,
-      otp,
+      otp: otp,
+      otpExpiry: Date.now() + 5 * 60 * 1000, // 5 min expiry
       isVerified: false
     });
 
     await user.save();
+
+    console.log("OTP GENERATED:", otp);
 
     res.json({
       success: true,
@@ -71,47 +76,56 @@ router.post("/register", async (req, res) => {
 
 // ================= VERIFY OTP =================
 router.post("/verify-otp", async (req, res) => {
-
   try {
-
     const { email, otp } = req.body;
-
-    console.log("👉 EMAIL RECEIVED:", email);
-    console.log("👉 OTP RECEIVED:", otp);
 
     const user = await User.findOne({ email });
 
-    console.log("👉 USER FROM DB:", user);
-
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
     }
 
-    console.log("👉 OTP IN DB:", user.otp);
+    console.log("DB OTP:", user.otp);
+    console.log("INPUT OTP:", otp);
 
-    if (String(user.otp).trim() !== String(otp).trim()) {
-      return res.status(400).json({ message: "Invalid OTP" });
+    // expiry check
+    if (user.otpExpiry && user.otpExpiry < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP expired"
+      });
+    }
+
+    // OTP match check
+    if (user.otp !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP"
+      });
     }
 
     user.isVerified = true;
     user.otp = null;
+    user.otpExpiry = null;
 
     await user.save();
 
-    console.log("👉 AFTER SAVE:", user);
+    return res.json({
+      success: true,
+      message: "OTP verified successfully"
+    });
 
-    return res.json({ message: "OTP verified successfully" });
-
-  } catch (error) {
-    console.log("OTP ERROR:", error);
-
+  } catch (err) {
+    console.error("VERIFY ERROR:", err);
     return res.status(500).json({
-      message: "Server error",
-      error: error.message
+      success: false,
+      message: "Server error"
     });
   }
 });
-
 
 
 // ================= LOGIN =================
