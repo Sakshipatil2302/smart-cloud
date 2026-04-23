@@ -12,6 +12,7 @@
   min-height: 100vh;
   position: relative;
   overflow-y: auto;
+  width: 100%;
 }
 
 /* ---------- HEADER ---------- */
@@ -46,7 +47,7 @@
 /* ---------- FILE GRID ---------- */
 .file-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
@@ -60,6 +61,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   min-height: 150px;
+  
   word-break: break-word;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -235,3 +237,4 @@
     transform: translateY(0);
   }
 }
+

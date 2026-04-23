@@ -115,16 +115,37 @@ export default function Dashboard() {
       setError("Search failed");
     }
   };
+const handleVoiceSearch = () => {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  const handleVoiceSearch = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) return setError("Voice search not supported");
+  if (!SpeechRecognition) {
+    setError("Voice search not supported in this browser");
+    return;
+  }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.start();
-    recognition.onresult = event => handleSearch(event.results[0][0].transcript);
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    console.log("Voice started");
   };
+
+  recognition.onresult = (event) => {
+    const text = event.results[0][0].transcript;
+    console.log("You said:", text);
+    handleSearch(text); // 🔥 connect to your search
+  };
+
+  recognition.onerror = (event) => {
+    console.error("Voice error:", event.error);
+    setError("Microphone error: " + event.error);
+  };
+
+  recognition.start();
+};
 
   // Upload
   const handleUploadClick = () => fileInputRef.current?.click();

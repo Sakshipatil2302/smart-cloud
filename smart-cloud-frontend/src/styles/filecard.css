@@ -14,6 +14,8 @@
   word-break: break-word; /* wrap long file names */
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   position: relative;
+  flex: 1 1 calc(33.33% - 20px);
+  min-width: 250px;
 }
 
 .file-name {

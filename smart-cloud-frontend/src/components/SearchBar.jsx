@@ -1,7 +1,7 @@
 // src/components/SearchBar.jsx
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import "../styles/searchBar.css";
+import "../styles/SearchBar.css";
 
 export default function SearchBar({ API, token, onResults, view = "all", favorites = [], userEmail }) {
   const [query, setQuery] = useState("");
